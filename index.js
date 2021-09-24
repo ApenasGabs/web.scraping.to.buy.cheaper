@@ -1,24 +1,14 @@
-const axios = require("axios");
-const cheerio = require("cheerio");
-// const url = "https://www.kabum.com.br/produto/112807/";
-const url = "https://www.google.com/search?q=dolar";
-console.log("1");
-axios(url)
-    .then((response) => {
-        const html = response.data;
-        const $ = cheerio.load(html);
-        const resto = $(".a61j6 vk_gy vk_sh Hg3mWc");
-        console.log(resto);
-    })
-    .catch(console.error);
-// request(
-//     "https://www.google.com/search?q=dolar",
-//     (error, response, html) => {
-//         if (!error && response.statusCode == 200) {
-//             const $ = cheerio.load(html);
-//             const resto = $('.a61j6 vk_gy vk_sh Hg3mWc');
-//             console.log(resto);
-//             console.log("2");
-//         }
-//     }
-// );
+const puppeteer = require("puppeteer");
+
+async function robo() {
+    const browser = await puppeteer.launch({ headless: true });
+    const page = await browser.newPage();
+    const myPage = `https://www.kabum.com.br/produto/112807/projetor-lg-cinebeam-smart-tv-140-uhd-4k-hdr10-1500-ansi-lumens-hdmi-usb-bluetooth-wi-fi-branco-hu70la`;
+    await page.goto(myPage);
+    const resultado = await page.evaluate(() => {
+        return document.querySelector("div#cardAlertaOferta.sc-cVxdjG.kxXjpT");
+    });
+    console.log(`ainda tem ${resultado} unidades`);
+    await browser.close();
+}
+robo();
