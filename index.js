@@ -1,14 +1,19 @@
 const puppeteer = require("puppeteer");
+const produto = `Projetor+LG+CineBeam+Smart+TV+140`;
+const myPage = `https://www.google.com/search?q=${produto}`;
+console.log(myPage);
 
 async function robo() {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
-    const myPage = `https://www.kabum.com.br/produto/112807/projetor-lg-cinebeam-smart-tv-140-uhd-4k-hdr10-1500-ansi-lumens-hdmi-usb-bluetooth-wi-fi-branco-hu70la`;
+
     await page.goto(myPage);
     const resultado = await page.evaluate(() => {
-        return document.querySelector("div#cardAlertaOferta.sc-cVxdjG.kxXjpT");
+        return document.querySelector(
+            "div.pla-unit-container > div > div >div:nth-child(2)"
+        );
     });
     console.log(`ainda tem ${resultado} unidades`);
-    await browser.close();
+    // await browser.close();
 }
 robo();
