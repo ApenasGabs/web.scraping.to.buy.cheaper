@@ -17,4 +17,4 @@ async function robo() {
     console.log(`Esta custando ${edit[0]}`);
     await browser.close();
 }
-robo();
+export default robo;
